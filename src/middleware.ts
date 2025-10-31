@@ -68,6 +68,7 @@ export function middleware(request: NextRequest, event: NextFetchEvent) {
 
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|images|.well-known).*)",
+    // This is the fix: added "_next/data" to the ignore list
+    "/((?!api|_next/static|_next/image|_next/data|favicon.ico|images|.well-known).*)",
   ],
 };

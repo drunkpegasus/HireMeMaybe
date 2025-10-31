@@ -37,32 +37,17 @@ export default function AboutHero() {
           <FadeUp key="description-2" duration={0.6} delay={0.4}>
             <p className="mt-8 text-base font-medium text-zinc-900 dark:text-zinc-300 sm:text-lg md:text-lg">
               Explore my latest{" "}
-              <Link href="/pictures" className="underline underline-offset-4">
+              <Link
+                href="/pictures"
+                prefetch={false}
+                className="underline underline-offset-4"
+              >
                 <span className="text-accent">pictures</span>
               </Link>{" "}
               showcasing my expertise in Reactjs, Nextjs, Javascript, Typescript
               and web development.
             </p>
           </FadeUp>
-          {/* <FadeRight
-            key="hero-location"
-            duration={0.6}
-            delay={0.8}
-            className="mr-0 mt-8 flex items-center justify-center gap-4 lg:mr-8 lg:justify-end"
-          >
-            <div className="relative flex w-12 gap-4 overflow-hidden rounded-md">
-              <Image
-                className="-z-10 h-full w-full bg-cover bg-no-repeat"
-                alt="Indian flag"
-                src="https://flagcdn.com/in.svg"
-                width={15}
-                height={15}
-              />
-            </div>
-            <span className="text-lg font-medium text-foreground">
-              Mumbai, India
-            </span>
-          </FadeRight> */}
         </AnimatePresence>
       </div>
     </div>
