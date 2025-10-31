@@ -58,8 +58,7 @@ export default function App({ Component, pageProps }: AppProps) {
 // so we accept a generic deps parameter and cast it to React's DependencyList.
 function useEffect(
   effect: () => void | (() => void | undefined),
-  deps?: DependencyList | unknown[]
+  deps?: DependencyList | unknown[],
 ) {
   return reactUseEffect(effect, deps as DependencyList | undefined);
 }
-
