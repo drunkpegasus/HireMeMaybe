@@ -1,4 +1,3 @@
-// src/middleware.ts
 import {
   type NextRequest,
   type NextFetchEvent,
@@ -8,14 +7,21 @@ import {
 const LOGGING_URL = process.env.LOGGING_API_ENDPOINT;
 
 export function middleware(request: NextRequest, event: NextFetchEvent) {
-  // --- THIS IS THE FIX ---
-  // Only log if it's a 'page-load' request.
-  // This ignores data requests, prefetches, etc., solving the double-log.
+  // --- NEW CHECKS ---
+  // 1. Get Next.js-specific headers
   const purpose = request.headers.get("Next-Purpose");
+  const isPrefetch = request.headers.get("Next-Prefetch");
+
+  // 2. Ignore prefetch requests explicitly (THIS IS THE FIX)
+  if (isPrefetch) {
+    return NextResponse.next();
+  }
+
+  // 3. Keep the old check for other non-page-load requests (like data)
   if (purpose && purpose !== "page-load") {
     return NextResponse.next();
   }
-  // --- END FIX ---
+  // --- END NEW CHECKS ---
 
   if (LOGGING_URL) {
     const page = request.nextUrl.pathname;
