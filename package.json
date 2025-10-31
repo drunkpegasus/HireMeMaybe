@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "postbuild": "npm run sitemap",
+    "postbuild": "pnpm sitemap",
     "start": "next start",
     "lint": "next lint",
     "sitemap": "cross-env NODE_OPTIONS='--experimental-json-modules' node ./src/scripts/generateSitemap.mjs",
