@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const page = (req.query.page as string) || '/unknown';
     
     // Get IP and User-Agent from the request
-    const visitorIp = req.ip || (req.headers['x-forwarded-for'] as string) || 'IP Not Found';
+    const visitorIp = (req.headers['x-forwarded-for'] as string) || req.socket?.remoteAddress || 'IP Not Found';
     const userAgent = (req.headers['user-agent'] as string) || 'unknown';
 
     // Call your Express.js backend
