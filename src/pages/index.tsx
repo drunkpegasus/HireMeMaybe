@@ -1,14 +1,6 @@
-import Head from "next/head";
-
 import { NextSeo } from "next-seo";
-
 import LandingHero from "@/components/landing-hero";
-import SkillsShowcase from "@/components/skills/skills-showcase";
-import ProjectShowcase from "@/components/projects/project-showcase";
-import { PROJECT_SHOWCASE } from "@/data/projects";
-import { SKILLS_DATA } from "@/data/skills";
 import { siteMetadata } from "@/data/siteMetaData.mjs";
-
 export default function Home() {
   return (
     <>

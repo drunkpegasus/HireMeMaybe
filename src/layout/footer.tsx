@@ -1,4 +1,3 @@
-import ContactButton from "@/components/contact-form/contact-button";
 import { GithubIcon, LinkedinIcon, TwitterIcon } from "@/components/icons";
 import { siteMetadata } from "@/data/siteMetaData.mjs";
 
