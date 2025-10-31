@@ -11,5 +11,4 @@ export const EXPERIENCE: ExperienceShowcaseListItemProps[] = [
     location: "Bangalore",
     description: "",
   },
- 
 ];

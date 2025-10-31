@@ -9,8 +9,6 @@ export const EDUCATION: ExperienceShowcaseListItemProps[] = [
     },
     date: "2019-2023",
     location: "Nagpur, Maharashtra",
-    description:
-      "",
+    description: "",
   },
-  
 ];

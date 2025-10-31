@@ -1,13 +1,13 @@
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
-import { NextSeo } from 'next-seo';
-import { siteMetadata } from '@/data/siteMetaData.mjs';
+import { GetStaticProps, InferGetStaticPropsType } from "next";
+import { NextSeo } from "next-seo";
+import { siteMetadata } from "@/data/siteMetaData.mjs";
 
 // Node.js built-in modules to read files
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 // Using relative path for GalleryImage
-import GalleryImage from '@/components/GalleryImage';
+import GalleryImage from "@/components/GalleryImage";
 
 // This is the data structure we'll create on the server
 type ImageData = {
@@ -23,16 +23,16 @@ export const getStaticProps: GetStaticProps<{
   // 1. Define the paths to your image folders
   const thumbnailDir = path.join(
     process.cwd(),
-    'public/images/gallery/thumbnails',
+    "public/images/gallery/thumbnails",
   );
-  const fullDir = path.join(process.cwd(), 'public/images/gallery/full');
+  const fullDir = path.join(process.cwd(), "public/images/gallery/full");
 
   // 2. Read all filenames from the 'thumbnails' directory
   let thumbnailFiles;
   try {
     thumbnailFiles = fs.readdirSync(thumbnailDir);
   } catch (error) {
-    console.error('Error reading thumbnails directory:', error);
+    console.error("Error reading thumbnails directory:", error);
     // If the directory doesn't exist, return an empty array
     return { props: { images: [] } };
   }
@@ -81,8 +81,8 @@ export default function ProjectsPage({
         canonical={`${siteMetadata.siteUrl}/pictures`}
         openGraph={{
           url: `${siteMetadata.siteUrl}/pictures`,
-          title: 'Pictures - My Work',
-          description: 'A gallery of my creative work and projects.',
+          title: "Pictures - My Work",
+          description: "A gallery of my creative work and projects.",
         }}
       />
       <section className="mx-auto mb-40 mt-6 w-full max-w-7xl gap-20 px-6 sm:mt-12 sm:px-14 md:px-20">
@@ -117,4 +117,3 @@ export default function ProjectsPage({
     </>
   );
 }
-

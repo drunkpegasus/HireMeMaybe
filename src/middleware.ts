@@ -1,38 +1,42 @@
-import { type NextRequest, type NextFetchEvent, NextResponse } from 'next/server';
+import {
+  type NextRequest,
+  type NextFetchEvent,
+  NextResponse,
+} from "next/server";
 
 const LOGGING_URL = process.env.LOGGING_API_ENDPOINT;
 
 export function middleware(request: NextRequest, event: NextFetchEvent) {
   if (LOGGING_URL) {
     const page = request.nextUrl.pathname;
-    
-   
-    const visitorIp = request.ip || request.headers.get('x-forwarded-for') || 'IP Not Found';
-    const userAgent = request.headers.get('user-agent') || 'unknown';
+
+    const visitorIp =
+      request.ip || request.headers.get("x-forwarded-for") || "IP Not Found";
+    const userAgent = request.headers.get("user-agent") || "unknown";
 
     const logVisit = async () => {
       try {
-       
         const urlToFetch = `${LOGGING_URL}?page=${encodeURIComponent(page)}`;
 
         const response = await fetch(urlToFetch, {
-          method: 'GET',
+          method: "GET",
           headers: {
-            
-            'User-Agent': userAgent,
-            
-            'x-forwarded-for': visitorIp, 
+            "User-Agent": userAgent,
+
+            "x-forwarded-for": visitorIp,
           },
           keepalive: true,
         });
 
         if (!response.ok) {
-          
           const errorText = await response.text();
-          console.error(`[Middleware] Log server error: ${response.status}`, errorText);
+          console.error(
+            `[Middleware] Log server error: ${response.status}`,
+            errorText,
+          );
         }
       } catch (error) {
-        console.error('[Middleware] Fetch failed:', error);
+        console.error("[Middleware] Fetch failed:", error);
       }
     };
 
@@ -42,9 +46,8 @@ export function middleware(request: NextRequest, event: NextFetchEvent) {
   return NextResponse.next();
 }
 
-
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico|images|.well-known).*)',
+    "/((?!api|_next/static|_next/image|favicon.ico|images|.well-known).*)",
   ],
 };

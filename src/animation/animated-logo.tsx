@@ -21,7 +21,7 @@ export default function AnimatedLogo() {
         className="h-full w-full fill-accent stroke-accent"
       >
         <motion.path
-  d="M100 60 
+          d="M100 60 
      L160 60 
      L160 200 
      L300 60 
@@ -33,21 +33,18 @@ export default function AnimatedLogo() {
      L160 390 
      L100 390 
      Z"
-  strokeWidth="15"
-  strokeLinejoin="round"
-  strokeLinecap="round"
-  variants={iconVariant}
-  initial="hidden"
-  animate="visible"
-  transition={{
-    default: { duration: 3, ease: "easeInOut" },
-    fill: { duration: 3, ease: [1, 0, 0.8, 1] },
-  }}
-/>
-
+          strokeWidth="15"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          variants={iconVariant}
+          initial="hidden"
+          animate="visible"
+          transition={{
+            default: { duration: 3, ease: "easeInOut" },
+            fill: { duration: 3, ease: [1, 0, 0.8, 1] },
+          }}
+        />
       </motion.svg>
     </AnimatePresence>
   );
 }
-
-

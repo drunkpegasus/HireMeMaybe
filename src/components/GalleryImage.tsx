@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
 type GalleryImageProps = {
   thumbnailSrc: string;
@@ -7,7 +7,11 @@ type GalleryImageProps = {
 };
 
 // This is a new component that uses the new app's styling.
-export default function GalleryImage({ thumbnailSrc, fullSrc, alt }: GalleryImageProps) {
+export default function GalleryImage({
+  thumbnailSrc,
+  fullSrc,
+  alt,
+}: GalleryImageProps) {
   return (
     <motion.a
       href={fullSrc}
@@ -36,5 +40,3 @@ export default function GalleryImage({ thumbnailSrc, fullSrc, alt }: GalleryImag
     </motion.a>
   );
 }
-
-

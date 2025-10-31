@@ -81,7 +81,8 @@ export const PROJECTS_CARD: ProjectCardProps[] = [
       "/images/projects/generic-lib-1.webp",
       "/images/projects/generic-lib-2.webp",
     ],
-    description: "A sample library/package placeholder used for demonstrations.",
+    description:
+      "A sample library/package placeholder used for demonstrations.",
     sourceCodeHref: "https://example.com/source/sample-library",
   },
 ];
