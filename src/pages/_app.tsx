@@ -23,19 +23,20 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   useEffect(() => {
-    // This logs the route change *after* it completes
     const handleRouteChange = (url: string) => {
       logPageView(url);
     };
 
-    // Listen for the event
+    // Log the *initial* page load
+    logPageView(router.asPath);
+
+    // Log subsequent navigations
     router.events.on("routeChangeComplete", handleRouteChange);
 
-    // Clean up the listener
     return () => {
       router.events.off("routeChangeComplete", handleRouteChange);
     };
-  }, [router.events]);
+  }, [router.events, router.asPath]);
 
   return (
     <>
