@@ -37,11 +37,7 @@ export default function AboutHero() {
           <FadeUp key="description-2" duration={0.6} delay={0.4}>
             <p className="mt-8 text-base font-medium text-zinc-900 dark:text-zinc-300 sm:text-lg md:text-lg">
               Explore my latest{" "}
-              <Link
-                href="/pictures"
-                
-                className="underline underline-offset-4"
-              >
+              <Link href="/pictures" className="underline underline-offset-4">
                 <span className="text-accent">pictures</span>
               </Link>{" "}
               showcasing my expertise in Reactjs, Nextjs, Javascript, Typescript
