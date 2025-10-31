@@ -8,7 +8,6 @@ import { AnimatePresence } from "framer-motion";
 import MainLayout from "@/layout/main-layout";
 import CursorTrailCanvas from "@/components/cursor-trail-canvas";
 import "@/styles/globals.css";
-import { MittEmitter } from "next/dist/shared/lib/mitt";
 import { useEffect as reactUseEffect, DependencyList } from "react";
 
 function logPageView(url: string) {
