@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router"; // <-- Changed this import
+import { useRouter } from "next/router";
 
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -22,8 +22,8 @@ export interface NavbarProps {
 }
 
 export default function Navbar(props: NavbarProps) {
-  const router = useRouter(); // <-- Added this
-  const pathName = router.pathname; // <-- Get pathname from router
+  const router = useRouter();
+  const pathName = router.pathname;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
