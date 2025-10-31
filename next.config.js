@@ -19,7 +19,7 @@ const nextConfig = withBundleAnalyzer({
       use: ["@svgr/webpack"],
     });
     config.resolve.fallback = {
-      fs: false,
+      // fs: false,
       net: false,
       dns: false,
       child_process: false,
