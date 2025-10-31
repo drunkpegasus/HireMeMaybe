@@ -36,7 +36,7 @@ export default function Navbar(props: NavbarProps) {
       <div className="mx-auto flex items-center justify-between lg:max-w-7xl">
         <Link
           href="/"
-          prefetch={false}
+         
           className="drop-shadow-teralight flex items-center justify-center"
           aria-label="Return to home page"
         >
@@ -54,7 +54,7 @@ export default function Navbar(props: NavbarProps) {
                 >
                   <Link
                     href={_link.href}
-                    prefetch={false}
+                    
                     className={classNames(
                       pathName === _link.href
                         ? "font-semibold text-background dark:hover:text-foreground"

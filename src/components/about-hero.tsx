@@ -39,7 +39,7 @@ export default function AboutHero() {
               Explore my latest{" "}
               <Link
                 href="/pictures"
-                prefetch={false}
+                
                 className="underline underline-offset-4"
               >
                 <span className="text-accent">pictures</span>
