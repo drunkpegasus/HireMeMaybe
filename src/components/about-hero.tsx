@@ -29,12 +29,17 @@ export default function AboutHero() {
           </FadeUp>
           <FadeUp key="description-1" duration={0.6} delay={0.2}>
             <p className="mt-8 text-base font-medium text-zinc-900 dark:text-zinc-300 sm:text-lg md:text-lg">
-              I build for the web with a preference for order over noise. My work leans toward simplicity that feels earned through intention and craft.
+              I build for the web with a preference for order over noise. My
+              work leans toward simplicity that feels earned through intention
+              and craft.
             </p>
           </FadeUp>
           <FadeUp key="description-2" duration={0.6} delay={0.4}>
             <p className="mt-8 text-base font-medium text-zinc-900 dark:text-zinc-300 sm:text-lg md:text-lg">
-              React, Next.js and TypeScript are my tools of choice, though I care more for what they allow than what they are. What you see here is a modest record of projects that reflect a certain patience, and the occasional lapse of it.
+              React, Next.js and TypeScript are my tools of choice, though I
+              care more for what they allow than what they are. What you see
+              here is a modest record of projects that reflect a certain
+              patience, and the occasional lapse of it.
             </p>
           </FadeUp>
         </AnimatePresence>

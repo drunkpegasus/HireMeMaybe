@@ -47,8 +47,11 @@ export default function LandingHero() {
             </FadeUp>
             <FadeUp key="description" duration={0.6} delay={0.2}>
               <div className="mt-8 max-w-3xl text-base font-semibold text-zinc-900 dark:text-zinc-200 sm:text-base md:text-xl">
-                I create for the web with an attention to proportion and stillness. Each project begins with intent and ends, I hope, with a sense of quiet satisfaction.
-                What follows is a collection of work shaped by patience, curiosity and the wish to make something that lasts a little longer than trends do.
+                I create for the web with an attention to proportion and
+                stillness. Each project begins with intent and ends, I hope,
+                with a sense of quiet satisfaction. What follows is a collection
+                of work shaped by patience, curiosity and the wish to make
+                something that lasts a little longer than trends do.
               </div>
             </FadeUp>
           </AnimatePresence>
