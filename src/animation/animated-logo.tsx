@@ -1,6 +1,20 @@
 import { AnimatePresence, Variants, motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export default function AnimatedLogo() {
+  
+  const [animationKey, setAnimationKey] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      
+      setAnimationKey((prevKey) => prevKey + 1);
+    }, 10000);
+
+    
+    return () => clearInterval(intervalId);
+  }, []);
+
   const iconVariant: Variants = {
     hidden: {
       pathLength: 0,
@@ -8,7 +22,7 @@ export default function AnimatedLogo() {
     },
     visible: {
       pathLength: 1,
-      // Set fill as per your theme
+      
       fill: "#1f8d93",
     },
   };
@@ -21,6 +35,8 @@ export default function AnimatedLogo() {
         className="h-full w-full fill-accent stroke-accent"
       >
         <motion.path
+          
+          key={animationKey}
           d="M100 60 
      L160 60 
      L160 200 
