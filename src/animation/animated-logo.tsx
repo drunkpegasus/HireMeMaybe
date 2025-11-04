@@ -12,7 +12,7 @@ export default function AnimatedLogo() {
     return () => clearInterval(intervalId);
   }, []);
 
-  const iconVariant: Variants = {
+  const pathVariants: Variants = {
     hidden: {
       pathLength: 0,
       fill: "rgba(0, 0, 0, 0)",
@@ -24,15 +24,26 @@ export default function AnimatedLogo() {
     },
   };
 
+  const svgVariants: Variants = {
+    // This variant controls the SVG container's transition (fade/scale in/out)
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.3 } },
+    exit: { opacity: 0, scale: 0.95, transition: { duration: 0.3 } },
+  };
+
   return (
-    <AnimatePresence>
+    <AnimatePresence mode="wait">
       <motion.svg
+        key={animationKey}
         viewBox="0 0 450 450"
         xmlns="http://www.w3.org/2000/svg"
         className="h-full w-full fill-accent stroke-accent"
+        variants={svgVariants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
       >
         <motion.path
-          key={animationKey}
           d="M100 60 
      L160 60 
      L160 200 
@@ -48,12 +59,12 @@ export default function AnimatedLogo() {
           strokeWidth="15"
           strokeLinejoin="round"
           strokeLinecap="round"
-          variants={iconVariant}
+          variants={pathVariants}
           initial="hidden"
           animate="visible"
           transition={{
-            default: { duration: 3, ease: "easeInOut" },
-            fill: { duration: 3, ease: [1, 0, 0.8, 1] },
+            default: { duration: 3, ease: "easeInOut", delay: 0.3 },
+            fill: { duration: 3, ease: [1, 0, 0.8, 1], delay: 0.3 },
           }}
         />
       </motion.svg>
