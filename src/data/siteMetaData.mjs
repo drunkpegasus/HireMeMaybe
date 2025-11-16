@@ -16,6 +16,7 @@ export const siteMetadata = {
   github: "https://github.com/drunkpegasus",
   twitter: "https://twitter.com/kaustubhsh",
   linkedin: "https://www.linkedin.com/in/kaustubhshastrakar",
+  instagram: "https://www.instagram.com/kaustubh_.sh",
   locale: "en-US",
   // googleSiteVerification: "_YJlO90eSoye2AQOhbkRAzNbejzCGiTgAD4RNR3NtHc",
 };

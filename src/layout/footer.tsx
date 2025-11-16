@@ -1,4 +1,4 @@
-import { GithubIcon, LinkedinIcon } from "@/components/icons";
+import { GithubIcon, LinkedinIcon, InstagramIcon, MailIcon } from "@/components/icons";
 import { siteMetadata } from "@/data/siteMetaData.mjs";
 
 export default function Footer() {
@@ -50,6 +50,25 @@ export default function Footer() {
           >
             <LinkedinIcon className="text-accent transition-colors duration-150 hover:text-accent-foreground" />
           </a>
+
+          <a
+            href={siteMetadata.instagram}
+            target="_blank"
+            className="h-6 w-6"
+            aria-label="link to Instagram"
+          >
+            <InstagramIcon className="text-accent transition-colors duration-150 hover:text-accent-foreground" />
+          </a>
+
+          <a
+            href={`mailto:${siteMetadata.email}`}
+            target="_blank"
+            className="h-6 w-6"
+            aria-label="link to mail"
+          >
+            <MailIcon className="text-accent transition-colors duration-150 hover:text-accent-foreground" />
+          </a>
+
         </div>
       </div>
     </footer>
