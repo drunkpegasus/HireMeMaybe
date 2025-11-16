@@ -18,7 +18,6 @@ export default function SnakeGamePage() {
   // Use refs for game logic state
   const boardRef = useRef<HTMLDivElement>(null);
 
-  // --- FIX #1: Replaced NodeJS.Timeout ---
   const gameIntervalRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // --- Use the new Position type ---
