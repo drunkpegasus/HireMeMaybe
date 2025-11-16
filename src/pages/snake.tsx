@@ -239,13 +239,13 @@ export default function SnakeGamePage() {
   return (
     <>
       <NextSeo
-        title="Snake Game - Kaustubh"
+        title="Snake"
         description="A classic snake game built inside my portfolio."
         canonical={`${siteMetadata.siteUrl}/snake`}
         openGraph={{
           url: `${siteMetadata.siteUrl}/snake`,
-          title: "Snake Game - Kaustubh",
-          description: "A classic snake game built inside my portfolio.",
+          title: "Snake",
+          description: "Classic snake game.",
         }}
       />
 
