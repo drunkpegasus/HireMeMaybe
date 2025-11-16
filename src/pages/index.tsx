@@ -41,7 +41,9 @@ export default function Home() {
           />
         )}
       </Head> */}
-      <LandingHero />
+      <div className="flex flex-grow flex-col">
+        <LandingHero />
+      </div>
       {/* <SkillsShowcase skills={SKILLS_DATA} />
       <ProjectShowcase projects={PROJECT_SHOWCASE} /> */}
     </>

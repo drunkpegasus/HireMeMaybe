@@ -18,11 +18,16 @@ export interface MainLayoutProps {
 export default function MainLayout(props: MainLayoutProps) {
   return (
     <>
-      <div className={classNames("min-h-screen", montserrat.className)}>
+      <div
+        className={classNames(
+          "flex min-h-screen flex-col",
+          montserrat.className,
+        )}
+      >
         <Navbar routes={routes} />
-        <main>{props.children}</main>
+        <main className="flex flex-grow flex-col">{props.children}</main>
+        <Footer />
       </div>
-      <Footer />
     </>
   );
 }
