@@ -38,7 +38,9 @@ export default function About() {
         ]}
       />
       <AboutHero />
-      <ExperienceShowcaseList title="Experience" details={EXPERIENCE} />
+      <div id="experience-section">
+        <ExperienceShowcaseList title="Experience" details={EXPERIENCE} />
+      </div>
       {/* <ExperienceShowcaseList title="Education" details={EDUCATION} /> */}
     </>
   );

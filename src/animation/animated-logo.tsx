@@ -21,7 +21,7 @@ export default function AnimatedLogo() {
       pathLength: 1,
 
       // fill: "#1f8d93",
-      fill: "#bf123d",
+      fill: "#E57E8A",
     },
   };
 
