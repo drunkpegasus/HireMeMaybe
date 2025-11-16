@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <NextSeo
-        title="Kaustubh | Software Developer"
+        title="Kaus"
         description="Explore the professional portfolio of Kaustubh, a skilled Software Developer with 2 years of hands-on experience. Discover innovative projects, expertise in modern web technologies, and a passion for creating seamless user experiences."
         canonical={siteMetadata.siteUrl}
         openGraph={{
