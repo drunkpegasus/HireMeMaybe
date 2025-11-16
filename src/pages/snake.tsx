@@ -5,7 +5,7 @@ import { siteMetadata } from "@/data/siteMetaData.mjs";
 const GRID_SIZE = 20;
 const GAME_SPEED = 150; // Milliseconds
 
-// --- FIX #1: Define a type for positions ---
+// --- FIX: Define a type for positions ---
 type Position = { x: number; y: number };
 
 export default function SnakeGamePage() {
@@ -17,7 +17,10 @@ export default function SnakeGamePage() {
 
   // Use refs for game logic state
   const boardRef = useRef<HTMLDivElement>(null);
-  const gameIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  // --- FIX #1: Replaced NodeJS.Timeout ---
+  const gameIntervalRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   // --- Use the new Position type ---
   const snakeRef = useRef<Position[]>([{ x: 10, y: 10 }]);
   const foodRef = useRef<Position>({ x: 15, y: 10 });
@@ -72,8 +75,11 @@ export default function SnakeGamePage() {
 
   // Generate new food in a valid spot
   const generateFood = useCallback(() => {
-    // --- FIX #1: Explicitly type newFoodPosition ---
+    // --- FIX: Explicitly type newFoodPosition ---
     let newFoodPosition: Position;
+
+    // --- FIX #2: Disable linter for intentional 'while(true)' ---
+    // eslint-disable-next-line no-constant-condition
     while (true) {
       newFoodPosition = {
         x: Math.floor(Math.random() * GRID_SIZE) + 1,
@@ -142,7 +148,8 @@ export default function SnakeGamePage() {
   }, [drawGame, generateFood, gameOver]);
 
   // Start game function
-  const startGame = () => {
+  // --- FIX #3: Wrap startGame in useCallback ---
+  const startGame = useCallback(() => {
     if (gameIntervalRef.current) {
       clearInterval(gameIntervalRef.current);
     }
@@ -160,7 +167,7 @@ export default function SnakeGamePage() {
     generateFood();
 
     gameIntervalRef.current = setInterval(gameLoop, GAME_SPEED);
-  };
+  }, [gameLoop, generateFood]); // Add dependencies
 
   // Handle keyboard input
   useEffect(() => {
@@ -213,7 +220,8 @@ export default function SnakeGamePage() {
     return () => {
       document.removeEventListener("keydown", handleKeydown);
     };
-  }, [isGameRunning, isGameOver, gameLoop]); // Rerun if game state changes
+    // --- FIX #4: Add startGame to dependency array ---
+  }, [isGameRunning, isGameOver, gameLoop, startGame]); // Rerun if game state changes
 
   // Autorun on page load
   useEffect(() => {
@@ -225,7 +233,8 @@ export default function SnakeGamePage() {
         clearInterval(gameIntervalRef.current);
       }
     };
-  }, []);
+    // --- FIX #5: Add startGame to dependency array ---
+  }, [startGame]);
 
   return (
     <>
@@ -295,7 +304,7 @@ export default function SnakeGamePage() {
           height: ${GRID_SIZE * 20}px;
           border: 3px solid hsl(var(--accent));
 
-          /* --- FIX #1: Use muted color for the board --- */
+          /* --- Use muted color for the board --- */
           background-color: hsl(var(--muted));
 
           margin-top: 1rem;
@@ -324,7 +333,7 @@ export default function SnakeGamePage() {
           right: 0;
           bottom: 0;
 
-          /* --- FIX #1: Use muted color for overlay --- */
+          /* --- Use muted color for overlay --- */
           background-color: hsla(var(--muted), 0.8);
 
           backdrop-filter: blur(5px);
@@ -347,12 +356,12 @@ export default function SnakeGamePage() {
         :global(.game-board .snake) {
           background-color: hsl(var(--accent));
 
-          /* --- FIX #1: Snake border is now muted color --- */
+          /* --- Snake border is now muted color --- */
           border: 1px solid hsl(var(--muted));
           box-sizing: border-box;
         }
         :global(.game-board .food) {
-          /* --- FIX #2: New food color --- */
+          /* --- New food color --- */
           background-color: #84e1d9; /* Minty Teal */
           border-radius: 50%;
           box-sizing: border-box;
