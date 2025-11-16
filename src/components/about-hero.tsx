@@ -1,8 +1,18 @@
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import FadeUp from "@/animation/fade-up";
+import { ChevronDown } from "lucide-react";
+
 export default function AboutHero() {
+  // 1. This function handles the scroll
+  const handleScrollDown = () => {
+    const nextSection = document.getElementById("experience-section");
+    if (nextSection) {
+      nextSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <div className="mx-auto mt-0 flex max-w-7xl flex-col items-center gap-6 px-6 pt-20 text-center sm:px-14 md:mt-20 md:px-20 lg:mt-0 lg:flex-row lg:text-left">
+    <div className="relative mx-auto mt-0 flex max-w-7xl flex-col items-center gap-6 px-6 pt-20 text-center sm:px-14 md:mt-20 md:px-20 lg:mt-0 lg:flex-row lg:text-left">
       {/* <div className="w-full sm:w-1/2 md:w-2/3 lg:inline-block lg:h-full lg:w-1/2">
         <AnimatePresence>
           <FadeUp key="hero-image" duration={0.6}>
@@ -43,6 +53,28 @@ export default function AboutHero() {
           </FadeUp>
         </AnimatePresence>
       </div>
+
+      {/* 2. This is the new clickable button */}
+      <button
+        onClick={handleScrollDown}
+        aria-label="Scroll down to experience section"
+        className="absolute bottom-4 left-1/2 z-10 hidden -translate-x-1/2 cursor-pointer lg:block"
+      >
+        <motion.div
+          className="text-accent opacity-50"
+          animate={{
+            y: [0, 10, 0], // Bounces down and back up
+            opacity: [0.6, 0.1, 0.6], // Pulses opacity
+          }}
+          transition={{
+            duration: 2.0,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        >
+          <ChevronDown className="h-8 w-8" />
+        </motion.div>
+      </button>
     </div>
   );
 }

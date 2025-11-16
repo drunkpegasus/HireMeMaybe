@@ -20,7 +20,8 @@ export default function AnimatedLogo() {
     visible: {
       pathLength: 1,
 
-      fill: "#1f8d93",
+      // fill: "#1f8d93",
+      fill: "#E57E8A",
     },
   };
 

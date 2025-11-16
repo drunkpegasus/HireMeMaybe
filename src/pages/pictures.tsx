@@ -76,7 +76,7 @@ export default function ProjectsPage({
   return (
     <>
       <NextSeo
-        title="Pictures - My Work"
+        title="Pictures"
         description="A gallery of my creative work and projects."
         canonical={`${siteMetadata.siteUrl}/pictures`}
         openGraph={{
@@ -91,8 +91,7 @@ export default function ProjectsPage({
         </h1>
         <div className="my-2">
           <span className="text-sm text-muted-foreground">
-            A collection of my work. Click any image to see the full-size
-            version.
+            Right from my gallery. Click any image to see the full-size version.
           </span>
         </div>
 

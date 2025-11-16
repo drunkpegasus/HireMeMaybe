@@ -9,7 +9,7 @@ export default function About() {
   return (
     <>
       <NextSeo
-        title="About Kaustubh | Software Developer"
+        title="About"
         description="Learn more about Kaustubh, a dedicated Software Developer with 2 years of experience. Discover the journey, skills, and passion that drive me to create innovative and user-friendly web solutions."
         canonical={`${siteMetadata.siteUrl}/about`}
         openGraph={{
@@ -38,7 +38,9 @@ export default function About() {
         ]}
       />
       <AboutHero />
-      <ExperienceShowcaseList title="Experience" details={EXPERIENCE} />
+      <div id="experience-section">
+        <ExperienceShowcaseList title="Experience" details={EXPERIENCE} />
+      </div>
       {/* <ExperienceShowcaseList title="Education" details={EDUCATION} /> */}
     </>
   );
