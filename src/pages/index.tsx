@@ -5,18 +5,18 @@ export default function Home() {
   return (
     <>
       <NextSeo
-        title="Kaus"
-        description="Explore the professional portfolio of Kaustubh, a skilled Software Developer with 2 years of hands-on experience. Discover innovative projects, expertise in modern web technologies, and a passion for creating seamless user experiences."
+        title="Kaustubh Shastrakar"
+        description="Explore the professional portfolio of Kaustubh Shastrakar, a skilled Software Developer with 2 years of hands-on experience. Discover innovative projects, expertise in modern web technologies, and a passion for creating seamless user experiences."
         canonical={siteMetadata.siteUrl}
         openGraph={{
           url: siteMetadata.siteUrl,
-          title: "Kaustubh - Software Developer",
+          title: "Kaustubh Shastrakar - Software Developer",
           description:
-            "Dive into the world of web development with Kaustubh. Discover a Software Developer with 2 years of expertise, showcasing cutting-edge projects and a commitment to crafting exceptional user interfaces.",
+            "Dive into the world of web development with Kaustubh Shastrakar. Discover a Software Developer with 2 years of expertise, showcasing cutting-edge projects and a commitment to crafting exceptional user interfaces.",
           images: [
             {
               url: `${siteMetadata.siteUrl}${siteMetadata.twitterImage}`,
-              alt: "Kaustubh - Portfolio Image",
+              alt: "Kaustubh Shastrakar - Portfolio Image",
             },
           ],
           siteName: siteMetadata.siteName,

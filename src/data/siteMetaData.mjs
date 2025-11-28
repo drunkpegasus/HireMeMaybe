@@ -1,7 +1,7 @@
 export const siteMetadata = {
-  title: "KS",
-  author: "Kaus",
-  headerTitle: "Kaus",
+  title: "Kaustubh Shastrakar",
+  author: "Kaustubh Shastrakar",
+  headerTitle: "Kaustubh Shastrakar",
   description: "Frontend and Reactjs developer",
   language: "en-us",
   theme: "light",
