@@ -1,11 +1,11 @@
 export const siteMetadata = {
   title: "Kaustubh Shastrakar",
   author: "Kaustubh Shastrakar",
-  headerTitle: "Kaustubh Shastrakar",
+  headerTitle: "Kaus",
   description: "Frontend and Reactjs developer",
   language: "en-us",
   theme: "light",
-  siteName: "kaustubhsh.dev",
+  siteName: "Kaus",
   siteUrl: "https://kaustubhsh.dev",
   siteRepo: "https://github.com/drunkpegasus/HireMeMaybe",
   siteLogo: "/favicon.ico",
