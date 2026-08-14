@@ -20,7 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
         if (!apiUrl) return;
 
-        await fetch(`${apiUrl}/log-ip`, {
+        await fetch(apiUrl, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
