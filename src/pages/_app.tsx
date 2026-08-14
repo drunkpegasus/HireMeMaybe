@@ -17,31 +17,27 @@ export default function App({ Component, pageProps }: AppProps) {
     const logVisitor = async () => {
       try {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-        
+
         if (!apiUrl) return;
 
         await fetch(`${apiUrl}/log-ip`, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            // Using router.asPath directly here grabs the current URL
-            page: router.asPath, 
+            page: router.asPath,
             screenWidth: window.screen.width,
             screenHeight: window.screen.height,
           }),
         });
       } catch (error) {
-        console.error('Visitor logging failed:', error);
+        console.error("Visitor logging failed:", error);
       }
     };
 
-    // Because router.asPath is in the dependency array below, 
-    // this function automatically fires on the initial load AND every time the user navigates!
     logVisitor();
-    
-  }, [router.asPath]); 
+  }, [router.asPath]);
 
   return (
     <>
