@@ -16,7 +16,7 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     const logVisitor = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+        const apiUrl = process.env.LOGGING_API_ENDPOINT;
 
         if (!apiUrl) return;
 
