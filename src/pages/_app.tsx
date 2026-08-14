@@ -1,4 +1,4 @@
-import { useEffect } from "react"; // <-- Added this line
+import { useEffect } from "react";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 
@@ -14,9 +14,8 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   useEffect(() => {
-    const logVisitor = async (url: string) => {
+    const logVisitor = async () => {
       try {
-        // Make sure NEXT_PUBLIC_API_URL is set in your Vercel Environment Variables
         const apiUrl = process.env.NEXT_PUBLIC_API_URL;
         
         if (!apiUrl) return;
@@ -27,33 +26,23 @@ export default function App({ Component, pageProps }: AppProps) {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            page: url,
+            // Using router.asPath directly here grabs the current URL
+            page: router.asPath, 
             screenWidth: window.screen.width,
             screenHeight: window.screen.height,
           }),
         });
       } catch (error) {
-        // Silently fail so it doesn't break the UI for the user
         console.error('Visitor logging failed:', error);
       }
     };
 
-    // Log the initial page visit when the app first mounts
-    logVisitor(router.asPath);
+    // Because router.asPath is in the dependency array below, 
+    // this function automatically fires on the initial load AND every time the user navigates!
+    logVisitor();
+    
+  }, [router.asPath]); 
 
-    // Listen for all subsequent Next.js client-side route changes
-    const handleRouteChange = (url: string) => {
-      logVisitor(url);
-    };
-
-    router.events.on('routeChangeComplete', handleRouteChange);
-
-    // Cleanup the event listener when the component unmounts
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange);
-    };
-  }, [router]);
-  
   return (
     <>
       <ThemeProvider attribute="class" defaultTheme="light">
