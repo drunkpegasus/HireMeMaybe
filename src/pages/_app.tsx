@@ -27,8 +27,12 @@ export default function App({ Component, pageProps }: AppProps) {
           },
           body: JSON.stringify({
             page: router.asPath,
-            screenWidth: Math.round(window.screen.width * window.devicePixelRatio),
-            screenHeight: Math.round(window.screen.height * window.devicePixelRatio),
+            screenWidth: Math.round(
+              window.screen.width * window.devicePixelRatio,
+            ),
+            screenHeight: Math.round(
+              window.screen.height * window.devicePixelRatio,
+            ),
           }),
         });
       } catch (error) {
