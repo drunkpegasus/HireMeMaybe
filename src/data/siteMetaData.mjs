@@ -6,7 +6,7 @@ export const siteMetadata = {
   language: "en-us",
   theme: "light",
   siteName: "Kaus",
-  siteUrl: "https://kaustubhsh.dev",
+  siteUrl: "https://kaustubhsh.com",
   siteRepo: "https://github.com/drunkpegasus/HireMeMaybe",
   siteLogo: "/favicon.ico",
   image: "/static/homepage.png",
