@@ -2,6 +2,9 @@ import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import { siteMetadata } from "@/data/siteMetaData.mjs";
 import GalleryImage from "@/components/GalleryImage";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { XIcon } from "lucide-react";
 
 type CloudinaryImageData = {
   id: string;
@@ -22,14 +25,21 @@ export const getStaticProps: GetStaticProps<{
       secure: true,
     });
 
-    const { resources } = await cloudinary.search
-      .expression("folder:gallery")
-      .sort_by("created_at", "desc")
-      .max_results(500)
-      .execute();
+    // Use the live Admin API instead of the delayed Search API
+    const { resources } = await cloudinary.api.resources_by_asset_folder(
+      "gallery",
+      {
+        max_results: 500,
+      },
+    );
+
+    // Sort manually since resources_by_asset_folder doesn't natively accept sort_by
+    resources.sort(
+      (a: any, b: any) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    );
 
     const images: CloudinaryImageData[] = resources.map((file: any) => {
-      // Use the exact working URL from Cloudinary and inject optimization parameters
       const thumbnailSrc = file.secure_url.replace(
         "/upload/",
         "/upload/c_fill,w_400,h_400,f_auto,q_auto/",
@@ -48,7 +58,7 @@ export const getStaticProps: GetStaticProps<{
 
     return {
       props: { images },
-      revalidate: 3600,
+      revalidate: 5, // Rebuilds in the background 5 seconds after a new user visits
     };
   } catch (error) {
     console.error("Error fetching from Cloudinary:", error);
@@ -59,6 +69,8 @@ export const getStaticProps: GetStaticProps<{
 export default function PicturesPage({
   images,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
   return (
     <>
       <NextSeo
@@ -89,6 +101,7 @@ export default function PicturesPage({
                 thumbnailSrc={image.thumbnailSrc}
                 fullSrc={image.fullSrc}
                 alt={image.id}
+                onClick={() => setSelectedImage(image.fullSrc)}
               />
             ))
           ) : (
@@ -98,6 +111,35 @@ export default function PicturesPage({
           )}
         </div>
       </section>
+
+      {/* Full-Screen Lightbox Modal */}
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedImage(null)}
+            className="fixed inset-0 z-[9999] flex cursor-zoom-out items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
+          >
+            <button
+              className="absolute right-6 top-6 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20"
+              onClick={() => setSelectedImage(null)}
+            >
+              <XIcon className="h-8 w-8" />
+            </button>
+            <motion.img
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.9 }}
+              src={selectedImage}
+              alt="Full size gallery view"
+              className="max-h-[90vh] max-w-[90vw] rounded-md object-contain shadow-2xl"
+              onClick={(e) => e.stopPropagation()} // Prevent closing when clicking the image itself
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
