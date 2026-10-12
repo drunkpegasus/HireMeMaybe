@@ -4,7 +4,7 @@ import { siteMetadata } from "@/data/siteMetaData.mjs";
 import GalleryImage from "@/components/GalleryImage";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { XIcon, ExternalLinkIcon } from "lucide-react";
+import { XIcon, ExternalLinkIcon, Loader2Icon } from "lucide-react";
 
 type CloudinaryImageData = {
   id: string;
@@ -33,7 +33,7 @@ export const getStaticProps: GetStaticProps<{
       },
     );
 
-    // Sorts naturally by filename (e.g., 1, 2, 3... 10, 11)
+    // Natural sort to handle numerical filenames perfectly (e.g., 1.jpg, 2.jpg, 100.jpg)
     resources.sort((a: any, b: any) =>
       a.public_id.localeCompare(b.public_id, undefined, {
         numeric: true,
@@ -42,21 +42,17 @@ export const getStaticProps: GetStaticProps<{
     );
 
     const images: CloudinaryImageData[] = resources.map((file: any) => {
-      // 400x400 square for the grid
       const thumbnailSrc = file.secure_url.replace(
         "/upload/",
         "/upload/c_fill,w_400,h_400,f_auto,q_auto/",
       );
-      // 1920px max width for the fast-loading Lightbox
       const lightboxSrc = file.secure_url.replace(
         "/upload/",
         "/upload/c_limit,w_1920,f_auto,q_auto/",
       );
-      // The massive, untouched original (with auto-format applied for modern browsers)
-      const originalSrc = file.secure_url.replace(
-        "/upload/",
-        "/upload/f_auto,q_auto/",
-      );
+      const originalSrc = file.secure_url
+        .replace("/upload/", "/upload/q_auto:best/")
+        .replace(/\.[^/.]+$/, ".jpg");
 
       return {
         id: file.public_id,
@@ -81,6 +77,12 @@ export default function PicturesPage({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const [selectedImage, setSelectedImage] =
     useState<CloudinaryImageData | null>(null);
+  const [isModalImageLoading, setIsModalImageLoading] = useState(true);
+
+  const openModal = (image: CloudinaryImageData) => {
+    setIsModalImageLoading(true);
+    setSelectedImage(image);
+  };
 
   return (
     <>
@@ -111,7 +113,7 @@ export default function PicturesPage({
                 key={image.id}
                 thumbnailSrc={image.thumbnailSrc}
                 alt={image.id}
-                onClick={() => setSelectedImage(image)}
+                onClick={() => openModal(image)}
                 priority={index < 8}
               />
             ))
@@ -133,7 +135,7 @@ export default function PicturesPage({
             onClick={() => setSelectedImage(null)}
             className="fixed inset-0 z-[9999] flex cursor-zoom-out items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
           >
-            <div className="absolute right-6 top-6 flex gap-4">
+            <div className="absolute right-6 top-6 z-50 flex gap-4">
               <a
                 href={selectedImage.originalSrc}
                 target="_blank"
@@ -153,14 +155,26 @@ export default function PicturesPage({
               </button>
             </div>
 
+            {/* Loading Spinner */}
+            {isModalImageLoading && (
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+                <Loader2Icon className="h-12 w-12 animate-spin text-accent" />
+              </div>
+            )}
+
             <motion.img
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{
+                scale: 1,
+                opacity: isModalImageLoading ? 0 : 1,
+              }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.3 }}
               src={selectedImage.lightboxSrc}
               alt="Full size gallery view"
               className="max-h-[90vh] max-w-[90vw] rounded-md object-contain shadow-2xl"
               onClick={(e) => e.stopPropagation()}
+              onLoad={() => setIsModalImageLoading(false)}
             />
           </motion.div>
         )}
