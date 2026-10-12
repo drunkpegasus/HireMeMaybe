@@ -33,9 +33,12 @@ export const getStaticProps: GetStaticProps<{
       },
     );
 
-    resources.sort(
-      (a: any, b: any) =>
-        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    // Sorts naturally by filename (e.g., 1, 2, 3... 10, 11)
+    resources.sort((a: any, b: any) =>
+      a.public_id.localeCompare(b.public_id, undefined, {
+        numeric: true,
+        sensitivity: "base",
+      }),
     );
 
     const images: CloudinaryImageData[] = resources.map((file: any) => {
