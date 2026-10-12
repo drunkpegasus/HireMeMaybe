@@ -3,8 +3,14 @@ import { NextSeo } from "next-seo";
 import { siteMetadata } from "@/data/siteMetaData.mjs";
 import GalleryImage from "@/components/GalleryImage";
 
+type CloudinaryImageData = {
+  id: string;
+  thumbnailSrc: string;
+  fullSrc: string;
+};
+
 export const getStaticProps: GetStaticProps<{
-  images: string[];
+  images: CloudinaryImageData[];
 }> = async () => {
   try {
     const { v2: cloudinary } = await import("cloudinary");
@@ -22,9 +28,23 @@ export const getStaticProps: GetStaticProps<{
       .max_results(500)
       .execute();
 
-    const images = resources.map(
-      (file: any) => `${file.public_id.split("/").pop()}.${file.format}`,
-    );
+    const images: CloudinaryImageData[] = resources.map((file: any) => {
+      // Use the exact working URL from Cloudinary and inject optimization parameters
+      const thumbnailSrc = file.secure_url.replace(
+        "/upload/",
+        "/upload/c_fill,w_400,h_400,f_auto,q_auto/",
+      );
+      const fullSrc = file.secure_url.replace(
+        "/upload/",
+        "/upload/f_auto,q_auto/",
+      );
+
+      return {
+        id: file.public_id,
+        thumbnailSrc,
+        fullSrc,
+      };
+    });
 
     return {
       props: { images },
@@ -63,11 +83,12 @@ export default function PicturesPage({
 
         <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {images.length > 0 ? (
-            images.map((fileName) => (
+            images.map((image) => (
               <GalleryImage
-                key={fileName}
-                fileName={fileName}
-                alt={`Gallery picture ${fileName}`}
+                key={image.id}
+                thumbnailSrc={image.thumbnailSrc}
+                fullSrc={image.fullSrc}
+                alt={image.id}
               />
             ))
           ) : (

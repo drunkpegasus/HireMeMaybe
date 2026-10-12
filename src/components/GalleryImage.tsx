@@ -2,16 +2,16 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 type GalleryImageProps = {
-  fileName: string;
+  thumbnailSrc: string;
+  fullSrc: string;
   alt: string;
 };
 
-export default function GalleryImage({ fileName, alt }: GalleryImageProps) {
-  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-
-  const thumbnailSrc = `https://res.cloudinary.com/${cloudName}/image/upload/c_fill,w_400,h_400,f_auto,q_auto/v1/gallery/${fileName}`;
-  const fullSrc = `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto/v1/gallery/${fileName}`;
-
+export default function GalleryImage({
+  thumbnailSrc,
+  fullSrc,
+  alt,
+}: GalleryImageProps) {
   return (
     <motion.a
       href={fullSrc}
