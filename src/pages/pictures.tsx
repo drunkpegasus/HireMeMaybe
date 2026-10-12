@@ -4,12 +4,13 @@ import { siteMetadata } from "@/data/siteMetaData.mjs";
 import GalleryImage from "@/components/GalleryImage";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { XIcon } from "lucide-react";
+import { XIcon, ExternalLinkIcon } from "lucide-react";
 
 type CloudinaryImageData = {
   id: string;
   thumbnailSrc: string;
-  fullSrc: string;
+  lightboxSrc: string;
+  originalSrc: string;
 };
 
 export const getStaticProps: GetStaticProps<{
@@ -25,7 +26,6 @@ export const getStaticProps: GetStaticProps<{
       secure: true,
     });
 
-    // Use the live Admin API instead of the delayed Search API
     const { resources } = await cloudinary.api.resources_by_asset_folder(
       "gallery",
       {
@@ -33,18 +33,24 @@ export const getStaticProps: GetStaticProps<{
       },
     );
 
-    // Sort manually since resources_by_asset_folder doesn't natively accept sort_by
     resources.sort(
       (a: any, b: any) =>
         new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
     );
 
     const images: CloudinaryImageData[] = resources.map((file: any) => {
+      // 400x400 square for the grid
       const thumbnailSrc = file.secure_url.replace(
         "/upload/",
         "/upload/c_fill,w_400,h_400,f_auto,q_auto/",
       );
-      const fullSrc = file.secure_url.replace(
+      // 1920px max width for the fast-loading Lightbox
+      const lightboxSrc = file.secure_url.replace(
+        "/upload/",
+        "/upload/c_limit,w_1920,f_auto,q_auto/",
+      );
+      // The massive, untouched original (with auto-format applied for modern browsers)
+      const originalSrc = file.secure_url.replace(
         "/upload/",
         "/upload/f_auto,q_auto/",
       );
@@ -52,13 +58,14 @@ export const getStaticProps: GetStaticProps<{
       return {
         id: file.public_id,
         thumbnailSrc,
-        fullSrc,
+        lightboxSrc,
+        originalSrc,
       };
     });
 
     return {
       props: { images },
-      revalidate: 5, // Rebuilds in the background 5 seconds after a new user visits
+      revalidate: 5,
     };
   } catch (error) {
     console.error("Error fetching from Cloudinary:", error);
@@ -69,7 +76,8 @@ export const getStaticProps: GetStaticProps<{
 export default function PicturesPage({
   images,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] =
+    useState<CloudinaryImageData | null>(null);
 
   return (
     <>
@@ -95,13 +103,13 @@ export default function PicturesPage({
 
         <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {images.length > 0 ? (
-            images.map((image) => (
+            images.map((image, index) => (
               <GalleryImage
                 key={image.id}
                 thumbnailSrc={image.thumbnailSrc}
-                fullSrc={image.fullSrc}
                 alt={image.id}
-                onClick={() => setSelectedImage(image.fullSrc)}
+                onClick={() => setSelectedImage(image)}
+                priority={index < 8}
               />
             ))
           ) : (
@@ -122,20 +130,34 @@ export default function PicturesPage({
             onClick={() => setSelectedImage(null)}
             className="fixed inset-0 z-[9999] flex cursor-zoom-out items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
           >
-            <button
-              className="absolute right-6 top-6 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20"
-              onClick={() => setSelectedImage(null)}
-            >
-              <XIcon className="h-8 w-8" />
-            </button>
+            <div className="absolute right-6 top-6 flex gap-4">
+              <a
+                href={selectedImage.originalSrc}
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Open Original"
+                onClick={(e) => e.stopPropagation()}
+                className="cursor-pointer rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20"
+              >
+                <ExternalLinkIcon className="h-6 w-6 sm:h-8 sm:w-8" />
+              </a>
+              <button
+                title="Close"
+                className="rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20"
+                onClick={() => setSelectedImage(null)}
+              >
+                <XIcon className="h-6 w-6 sm:h-8 sm:w-8" />
+              </button>
+            </div>
+
             <motion.img
               initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.9 }}
-              src={selectedImage}
+              src={selectedImage.lightboxSrc}
               alt="Full size gallery view"
               className="max-h-[90vh] max-w-[90vw] rounded-md object-contain shadow-2xl"
-              onClick={(e) => e.stopPropagation()} // Prevent closing when clicking the image itself
+              onClick={(e) => e.stopPropagation()}
             />
           </motion.div>
         )}

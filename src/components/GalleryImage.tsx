@@ -3,15 +3,16 @@ import { motion } from "framer-motion";
 
 type GalleryImageProps = {
   thumbnailSrc: string;
-  fullSrc: string;
   alt: string;
   onClick: () => void;
+  priority?: boolean;
 };
 
 export default function GalleryImage({
   thumbnailSrc,
   alt,
   onClick,
+  priority = false,
 }: GalleryImageProps) {
   return (
     <motion.button
@@ -27,6 +28,8 @@ export default function GalleryImage({
         src={thumbnailSrc}
         alt={alt}
         fill
+        unoptimized
+        priority={priority}
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
       />
