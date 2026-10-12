@@ -1,17 +1,17 @@
+import Image from "next/image";
 import { motion } from "framer-motion";
 
 type GalleryImageProps = {
-  thumbnailSrc: string;
-  fullSrc: string;
+  fileName: string;
   alt: string;
 };
 
-// This is a new component that uses the new app's styling.
-export default function GalleryImage({
-  thumbnailSrc,
-  fullSrc,
-  alt,
-}: GalleryImageProps) {
+export default function GalleryImage({ fileName, alt }: GalleryImageProps) {
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+
+  const thumbnailSrc = `https://res.cloudinary.com/${cloudName}/image/upload/c_fill,w_400,h_400,f_auto,q_auto/v1/gallery/${fileName}`;
+  const fullSrc = `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto/v1/gallery/${fileName}`;
+
   return (
     <motion.a
       href={fullSrc}
@@ -24,18 +24,13 @@ export default function GalleryImage({
       }}
       layout
     >
-      {/*
-        Replaced next/image with a standard <img> tag to resolve a
-        build-time error. This removes Next.js image optimization
-        for this component, but will resolve the dependency issue.
-      */}
-      <img
+      <Image
         src={thumbnailSrc}
         alt={alt}
-        loading="lazy"
+        fill
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
       />
-      {/* Adds a nice dark overlay on hover */}
       <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/20" />
     </motion.a>
   );

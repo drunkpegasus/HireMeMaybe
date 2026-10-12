@@ -11,7 +11,16 @@ const nextConfig = withBundleAnalyzer({
     dirs: ["src"],
   },
   images: {
-    domains: ["https://flagcdn.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "flagcdn.com",
+      },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+    ],
   },
   webpack: (config) => {
     config.module.rules.push({
@@ -25,7 +34,6 @@ const nextConfig = withBundleAnalyzer({
       child_process: false,
       tls: false,
     };
-
     return config;
   },
 });

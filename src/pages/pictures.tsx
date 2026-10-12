@@ -1,76 +1,41 @@
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { NextSeo } from "next-seo";
 import { siteMetadata } from "@/data/siteMetaData.mjs";
-
-// Node.js built-in modules to read files
-import fs from "fs";
-import path from "path";
-
-// Using relative path for GalleryImage
 import GalleryImage from "@/components/GalleryImage";
+import { v2 as cloudinary } from "cloudinary";
 
-// This is the data structure we'll create on the server
-type ImageData = {
-  thumbnail: string;
-  full: string;
-  filename: string;
-};
+cloudinary.config({
+  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true,
+});
 
-// This function runs at build time on the server
 export const getStaticProps: GetStaticProps<{
-  images: ImageData[];
+  images: string[];
 }> = async () => {
-  // 1. Define the paths to your image folders
-  const thumbnailDir = path.join(
-    process.cwd(),
-    "public/images/gallery/thumbnails",
-  );
-  const fullDir = path.join(process.cwd(), "public/images/gallery/full");
-
-  // 2. Read all filenames from the 'thumbnails' directory
-  let thumbnailFiles;
   try {
-    thumbnailFiles = fs.readdirSync(thumbnailDir);
+    const { resources } = await cloudinary.search
+      .expression("folder:gallery")
+      .sort_by("created_at", "desc")
+      .max_results(500)
+      .execute();
+
+    const images = resources.map(
+      (file: any) => `${file.public_id.split("/").pop()}.${file.format}`,
+    );
+
+    return {
+      props: { images },
+      revalidate: 3600,
+    };
   } catch (error) {
-    console.error("Error reading thumbnails directory:", error);
-    // If the directory doesn't exist, return an empty array
+    console.error("Error fetching from Cloudinary:", error);
     return { props: { images: [] } };
   }
-
-  // 3. Create the props array
-  const images: ImageData[] = thumbnailFiles
-    .filter((file) =>
-      // Ensure we only process image files
-      /\.(jpg|jpeg|png|webp|avif|gif)$/i.test(file),
-    )
-    .map((filename) => {
-      const fullPath = path.join(fullDir, filename);
-
-      // Check if a matching full-size image exists
-      if (fs.existsSync(fullPath)) {
-        return {
-          thumbnail: `/images/gallery/thumbnails/${filename}`,
-          full: `/images/gallery/full/${filename}`,
-          filename: filename,
-        };
-      }
-      return null; // Return null if no matching full image
-    })
-    .filter((image): image is ImageData => image !== null); // Filter out any null entries
-
-  // 4. Pass the image data to the page
-  return {
-    props: {
-      images,
-    },
-    // Optional: Re-validate every 1 hour (3600 seconds)
-    // This lets new images show up without a full rebuild
-    revalidate: 3600,
-  };
 };
 
-// Your new page component
-export default function ProjectsPage({
+export default function PicturesPage({
   images,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
@@ -95,15 +60,13 @@ export default function ProjectsPage({
           </span>
         </div>
 
-        {/* Responsive Grid Gallery */}
         <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {images.length > 0 ? (
-            images.map((image) => (
+            images.map((fileName) => (
               <GalleryImage
-                key={image.filename}
-                thumbnailSrc={image.thumbnail}
-                fullSrc={image.full}
-                alt={image.filename}
+                key={fileName}
+                fileName={fileName}
+                alt={`Gallery picture ${fileName}`}
               />
             ))
           ) : (
