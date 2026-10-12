@@ -22,18 +22,23 @@ const nextConfig = withBundleAnalyzer({
       },
     ],
   },
-  webpack: (config) => {
+  webpack: (config, { isServer }) => {
     config.module.rules.push({
       test: /\.svg$/i,
       use: ["@svgr/webpack"],
     });
-    config.resolve.fallback = {
-      // fs: false,
-      net: false,
-      dns: false,
-      child_process: false,
-      tls: false,
-    };
+
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        dns: false,
+        child_process: false,
+        tls: false,
+      };
+    }
+
     return config;
   },
 });
