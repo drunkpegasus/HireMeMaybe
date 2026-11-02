@@ -1,7 +1,17 @@
+import Head from "next/head";
 import { NextSeo } from "next-seo";
 import LandingHero from "@/components/landing-hero";
 import { siteMetadata } from "@/data/siteMetaData.mjs";
+
 export default function Home() {
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: siteMetadata.siteName, // "Kaus" (change to "Kaustubh" in siteMetaData.mjs if preferred)
+    alternateName: ["Kaustubh", "Kaustubh Shastrakar", "kaustubhsh.com"],
+    url: `${siteMetadata.siteUrl}/`,
+  };
+
   return (
     <>
       <NextSeo
@@ -27,6 +37,14 @@ export default function Home() {
         }}
         additionalMetaTags={[
           {
+            name: "application-name",
+            content: siteMetadata.siteName,
+          },
+          {
+            name: "apple-mobile-web-app-title",
+            content: siteMetadata.siteName,
+          },
+          {
             property: "keywords",
             content:
               "React Developer, Software Developer, Frontend Developer, Web Developer, JavaScript, HTML, CSS, Portfolio, UI/UX, React.js, Frontend Development, Web Development, JavaScript Developer, Responsive Design",
@@ -34,6 +52,10 @@ export default function Home() {
         ]}
       />
       {/* <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
         {siteMetadata.googleSiteVerification && (
           <meta
             name="google-site-verification"

@@ -1,2 +1,5 @@
 User-agent: *
-Disallow: /
+Allow: /
+
+Host: https://kaustubhsh.com
+Sitemap: https://kaustubhsh.com/sitemap.xml
