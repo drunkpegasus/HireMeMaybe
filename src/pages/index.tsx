@@ -7,7 +7,7 @@ export default function Home() {
   const websiteJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: siteMetadata.siteName, // "Kaus" (change to "Kaustubh" in siteMetaData.mjs if preferred)
+    name: siteMetadata.siteName,
     alternateName: ["Kaustubh", "Kaustubh Shastrakar", "kaustubhsh.com"],
     url: `${siteMetadata.siteUrl}/`,
   };
@@ -51,23 +51,15 @@ export default function Home() {
           },
         ]}
       />
-      {/* <Head>
+      <Head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
-        {siteMetadata.googleSiteVerification && (
-          <meta
-            name="google-site-verification"
-            content={siteMetadata.googleSiteVerification}
-          />
-        )}
-      </Head> */}
+      </Head>
       <div className="flex flex-grow flex-col">
         <LandingHero />
       </div>
-      {/* <SkillsShowcase skills={SKILLS_DATA} />
-      <ProjectShowcase projects={PROJECT_SHOWCASE} /> */}
     </>
   );
 }
