@@ -23,7 +23,7 @@ export default function About() {
               alt: "Kaustubh - Portfolio Image",
             },
           ],
-          siteName: siteMetadata.siteName,
+          siteName: "Kaus",
           type: "website",
         }}
         twitter={{

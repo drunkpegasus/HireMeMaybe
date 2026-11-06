@@ -7,15 +7,15 @@ export default function Home() {
   const websiteJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: siteMetadata.siteName,
-    alternateName: ["Kaustubh", "Kaustubh Shastrakar", "kaustubhsh.com"],
+    name: "Kaus",
+    alternateName: ["Kaustubh", "Kaustubh Shastrakar", "Kaus"],
     url: `${siteMetadata.siteUrl}/`,
   };
 
   return (
     <>
       <NextSeo
-        title="Kaustubh Shastrakar"
+        title="Kaus"
         description="Explore the professional portfolio of Kaustubh Shastrakar, a skilled Software Developer with 2 years of hands-on experience. Discover innovative projects, expertise in modern web technologies, and a passion for creating seamless user experiences."
         canonical={siteMetadata.siteUrl}
         openGraph={{
@@ -42,7 +42,7 @@ export default function Home() {
           },
           {
             name: "apple-mobile-web-app-title",
-            content: siteMetadata.siteName,
+            content: "Kaus",
           },
           {
             property: "keywords",
